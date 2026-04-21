@@ -89,7 +89,7 @@ SMOKING_TO_SMQ020: Final[dict[int, int]] = {
 
 
 def get_default_model_path() -> Path:
-    return Path(__file__).resolve().parents[1] / "best_model_xgboost_6sinif_80-20.pkl"
+    return Path(__file__).resolve().parent / "best_model_xgboost_6sinif_80-20.pkl"
 
 
 def get_default_dataset_path() -> Path | None:
