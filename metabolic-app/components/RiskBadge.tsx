@@ -6,9 +6,9 @@ import { useLanguage } from "@/lib/i18n";
 type RiskLevel = "low" | "moderate" | "high";
 
 const riskStyle: Record<RiskLevel, string> = {
-  low: "bg-emerald-100 text-emerald-800 border-emerald-300",
-  moderate: "bg-amber-100 text-amber-800 border-amber-300",
-  high: "bg-rose-100 text-rose-800 border-rose-300",
+  low: "bg-[#dcfce7] text-[#15803d] border-[#86efac]",
+  moderate: "bg-[#fef9c3] text-[#a16207] border-[#fde047]",
+  high: "bg-[#fee2e2] text-[#b91c1c] border-[#fca5a5]",
 };
 
 export function RiskBadge({ riskLevel }: { riskLevel: RiskLevel }) {
@@ -18,7 +18,7 @@ export function RiskBadge({ riskLevel }: { riskLevel: RiskLevel }) {
     <Badge
       role="status"
       aria-label={`${copy.result.riskFactors}: ${copy.risk[riskLevel]}`}
-      className={`${riskStyle[riskLevel]} capitalize border`}
+      className={`${riskStyle[riskLevel]} border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.08em]`}
     >
       {copy.risk[riskLevel]}
     </Badge>

@@ -42,31 +42,33 @@ export function ResultCard() {
   }
 
   const borderByRisk: Record<PredictionResponse["risk_level"], string> = {
-    low: "border-emerald-300",
-    moderate: "border-amber-300",
-    high: "border-rose-300",
+    low: "border-l-[var(--risk-low)]",
+    moderate: "border-l-[var(--risk-moderate)]",
+    high: "border-l-[var(--risk-high)]",
   };
 
   return (
-    <Card className={`mx-auto w-full max-w-5xl border-2 shadow-md ${borderByRisk[result.risk_level]}`}>
+    <Card className={`mx-auto w-full max-w-5xl border border-(--border-subtle) border-l-4 bg-white shadow-sm ${borderByRisk[result.risk_level]}`}>
       <CardHeader className="space-y-3">
-        <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{copy.result.classificationResult}</p>
+        <p className="font-mono text-xs uppercase tracking-[0.24em] text-(--text-muted)">{copy.result.classificationResult}</p>
         <div className="flex items-center justify-between gap-4">
           <div>
-            <CardTitle className="text-3xl font-black tracking-tight">{result.predicted_label}</CardTitle>
-            <p className="text-slate-700">{result.predicted_label_full}</p>
+            <CardTitle className="clinical-value text-5xl font-medium tracking-[-0.02em] text-(--brand-800) md:text-7xl">
+              {result.predicted_label}
+            </CardTitle>
+            <p className="text-lg font-normal text-(--text-secondary)">{result.predicted_label_full}</p>
           </div>
           <RiskBadge riskLevel={result.risk_level} />
         </div>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-(--text-secondary)">
           {copy.result.clinicalNote}: {phenotypeNote}
         </p>
       </CardHeader>
 
       <CardContent className="space-y-6">
         <section>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-600">{copy.result.probabilityDistribution}</h3>
-          <div className="mt-3 rounded-lg border border-slate-200 p-3">
+          <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-(--text-muted)">{copy.result.probabilityDistribution}</h3>
+          <div className="mt-3 rounded-lg border border-(--border-subtle) p-3">
             <ProbabilityChart probabilities={result.probabilities} predictedLabel={result.predicted_label} />
           </div>
         </section>
@@ -74,15 +76,15 @@ export function ResultCard() {
         <Separator />
 
         <section className="space-y-3">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-600">{copy.result.derivedMetrics}</h3>
+          <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-(--text-muted)">{copy.result.derivedMetrics}</h3>
           <DerivedFeatures data={result.derived_features} />
         </section>
 
         <Separator />
 
         <section className="space-y-2" role="alert" aria-live="polite">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-600">{copy.result.riskFactors}</h3>
-          <ul className="space-y-1 text-sm text-slate-700">
+          <h3 className="font-mono text-xs font-semibold uppercase tracking-widest text-(--text-muted)">{copy.result.riskFactors}</h3>
+          <ul className="space-y-1 text-sm text-(--text-secondary)">
             {result.top_risk_factors.map((risk) => (
               <li key={risk}>- {risk}</li>
             ))}

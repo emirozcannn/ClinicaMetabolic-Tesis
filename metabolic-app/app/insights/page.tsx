@@ -14,8 +14,8 @@ export default function InsightsPage() {
   return (
     <div className="space-y-8">
       <header className="space-y-2">
-        <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50">{copy.insights.title}</h1>
-        <p className="text-slate-600 dark:text-slate-400">{copy.insights.description}</p>
+        <h1 className="text-3xl font-black tracking-tight text-(--text-primary)">{copy.insights.title}</h1>
+        <p className="text-(--text-secondary)">{copy.insights.description}</p>
       </header>
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -25,11 +25,12 @@ export default function InsightsPage() {
           { label: copy.insights.kappa, value: "0.9041" },
           { label: copy.insights.patients, value: "n=3,899" },
         ].map((item) => (
-          <Card key={item.label} className="border-slate-200 dark:border-slate-800">
+          <Card key={item.label} className="border border-(--border-subtle) bg-white shadow-sm">
             <CardContent className="p-5">
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">{item.label}</p>
-              <p className="mt-2 text-2xl font-black text-slate-900 dark:text-slate-50">{item.value}</p>
+              <p className="font-mono text-[11px] uppercase tracking-widest text-(--text-muted)">{item.label}</p>
+              <p className="stat mt-2 text-[2.5rem] font-medium text-(--brand-700)">{item.value}</p>
             </CardContent>
+            <div className="h-0.75 w-full bg-(--brand-500)" />
           </Card>
         ))}
       </section>
@@ -46,7 +47,7 @@ export default function InsightsPage() {
         <RocCurvePlaceholder />
       </section>
 
-      <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-300">
+      <div className="rounded-2xl border border-dashed border-(--border-strong) bg-(--surface-inset) p-5 text-sm text-(--text-secondary)">
         <p>{copy.insights.footerNotes}</p>
         <p className="mt-2">{copy.insights.confusionDescription}</p>
       </div>

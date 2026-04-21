@@ -25,7 +25,7 @@ export function ProbabilityChart({
           {chartData.map((entry) => (
             <Cell
               key={entry.label}
-              fill={entry.label === predictedLabel ? "#0f766e" : "#94a3b8"}
+              fill={entry.label === predictedLabel ? "#1a8a66" : "#d4dbd8"}
               fillOpacity={entry.label === predictedLabel ? 1 : 0.45}
             />
           ))}
@@ -33,6 +33,7 @@ export function ProbabilityChart({
             dataKey="value"
             position="right"
             formatter={(value) => `${Number(value).toFixed(1)}%`}
+            className="probability-value"
           />
         </Bar>
       </BarChart>

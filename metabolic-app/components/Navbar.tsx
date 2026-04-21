@@ -28,9 +28,9 @@ export function Navbar() {
   ];
 
   return (
-    <header className="no-print sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
+    <header className="no-print sticky top-0 z-30 border-b border-white/10 bg-(--brand-900)/95 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-3 px-4">
-        <Link href="/" className="shrink-0">
+        <Link href="/" className="shrink-0 text-white">
           <BrandMark />
         </Link>
 
@@ -41,8 +41,10 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition ${
-                  active ? "bg-teal-900 text-white shadow-sm shadow-teal-900/10" : "text-slate-700 hover:bg-slate-100"
+                className={`rounded-none border-b-2 px-3 py-2 text-sm font-medium transition ${
+                  active
+                    ? "border-(--brand-400) text-white"
+                    : "border-transparent text-white/70 hover:text-white"
                 }`}
               >
                 {link.label}
@@ -52,21 +54,23 @@ export function Navbar() {
           <button
             type="button"
             onClick={toggleLanguage}
-            className="ml-2 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700 transition hover:border-teal-300 hover:text-teal-900"
+            className="ml-2 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:border-(--brand-400)"
             aria-label={language === "en" ? copy.locale.turkish : copy.locale.english}
           >
-            <span className={language === "en" ? "text-teal-900" : "text-slate-400"}>EN</span>
-            <span className="text-slate-300">/</span>
-            <span className={language === "tr" ? "text-teal-900" : "text-slate-400"}>TR</span>
+            <span className={language === "en" ? "text-white" : "text-white/40"}>EN</span>
+            <span className="text-white/30">/</span>
+            <span className={language === "tr" ? "text-white" : "text-white/40"}>TR</span>
           </button>
         </nav>
 
         <Sheet>
-          <SheetTrigger render={<Button variant="outline" size="icon" className="md:hidden" />}>
+          <SheetTrigger
+            render={<Button variant="outline" size="icon" className="border-white/20 bg-white/5 text-white md:hidden" />}
+          >
             <Menu />
             <span className="sr-only">{copy.nav.openMenu}</span>
           </SheetTrigger>
-          <SheetContent side="right" className="w-80 border-slate-200 bg-white/95 backdrop-blur-xl">
+          <SheetContent side="right" className="w-80 border-white/10 bg-(--brand-900) text-white">
             <SheetHeader>
               <SheetTitle>{copy.nav.navigate}</SheetTitle>
             </SheetHeader>
@@ -74,10 +78,10 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={toggleLanguage}
-                className="mb-2 inline-flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-teal-300 hover:bg-teal-50"
+                className="mb-2 inline-flex items-center justify-between rounded-2xl border border-white/20 px-4 py-3 text-sm font-semibold text-white transition hover:border-(--brand-400) hover:bg-white/5"
               >
                 <span>{copy.locale.english}</span>
-                <span className="text-xs uppercase tracking-[0.18em] text-teal-900">
+                <span className="text-xs uppercase tracking-[0.18em] text-(--brand-400)">
                   {language === "en" ? copy.locale.turkish : copy.locale.english}
                 </span>
               </button>
@@ -86,7 +90,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={`rounded-md px-3 py-2 text-sm ${
-                    pathname === link.href ? "bg-teal-900 text-white" : "text-slate-700 hover:bg-slate-100"
+                    pathname === link.href ? "bg-white/10 text-white" : "text-white/80 hover:bg-white/5"
                   }`}
                 >
                   {link.label}

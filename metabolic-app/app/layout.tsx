@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, IBM_Plex_Mono } from "next/font/google";
+import { DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { ApiStatus } from "@/components/ApiStatus";
 import { Navbar } from "@/components/Navbar";
@@ -7,13 +7,14 @@ import { LanguageProvider } from "@/lib/i18n";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Toaster } from "@/components/ui/sonner";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const dmSans = DM_Sans({
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
+const dmMono = DM_Mono({
+  variable: "--font-mono",
   weight: ["400", "500"],
   subsets: ["latin"],
 });
@@ -29,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${plexMono.variable} h-full antialiased`}>
-      <body className="app-shell min-h-full font-sans text-slate-900">
+    <html lang="en" className={`${dmSans.variable} ${dmMono.variable} h-full antialiased`}>
+      <body className="app-shell min-h-full font-sans text-(--text-primary)">
         <LanguageProvider>
           <div className="relative min-h-screen">
             <ApiStatus />

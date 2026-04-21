@@ -25,11 +25,11 @@ export function DerivedFeatures({ data }: { data: DerivedFeaturesType }) {
         ];
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="grid gap-3 rounded-lg border-y border-(--border-subtle) bg-(--surface-inset) py-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
       {items.map((item) => (
-        <Card key={item.key} className="p-3">
-          <p className="text-xs text-muted-foreground">{item.key}</p>
-          <p className="text-xl font-semibold">{item.value.toFixed(4)}</p>
+        <Card key={item.key} className="border-0 bg-transparent p-3 shadow-none">
+          <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-(--text-muted)">{item.key}</p>
+          <p className="clinical-value text-[18px] font-medium text-(--brand-700)">{item.value.toFixed(4)}</p>
         </Card>
       ))}
     </div>

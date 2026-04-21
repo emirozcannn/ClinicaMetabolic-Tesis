@@ -47,7 +47,7 @@ const schema = z.object({
 });
 
 const stepFields: Array<Array<keyof PatientInput>> = [
-  ["age", "gender", "ethnicity", "education", "smoking"],
+  ["age", "gender", "ethnicity", "smoking"],
   ["height_cm", "weight_kg", "bmi", "waist_cm", "hip_cm", "systolic_bp", "diastolic_bp"],
   ["fasting_glucose", "hdl", "triglycerides", "serum_insulin", "hba1c", "hs_crp"],
   ["income_poverty_ratio", "sedentary_minutes"],
@@ -94,20 +94,23 @@ function NumericField({
 }) {
   return (
     <div className="space-y-1">
-      <label htmlFor={id} className="text-sm font-medium text-slate-700">
+      <label htmlFor={id} className="mb-1 block text-[13px] font-medium tracking-[0.02em] text-(--text-secondary) uppercase">
         {label}
       </label>
       <div className="flex items-center gap-2">
-        <Input id={id} type="number" step="any" {...register(id, { valueAsNumber: true })} />
-        <span className="text-xs text-slate-500">{unit}</span>
+        <Input id={id} type="number" step="any" className="h-10 rounded-md border-(--border-subtle) px-3.5" {...register(id, { valueAsNumber: true })} />
+        <span className="rounded-r-md border border-l-0 border-(--border-subtle) bg-(--neutral-100) px-2 py-1 font-mono text-xs text-(--text-muted)">
+          {unit}
+        </span>
       </div>
-      {hint ? <p className="text-xs text-slate-500">{hint}</p> : null}
+      {hint ? <p className="text-xs text-(--text-muted)">{hint}</p> : null}
     </div>
   );
 }
 
 export function PatientForm() {
   const [step, setStep] = useState(0);
+  const [isStepTransitioning, setIsStepTransitioning] = useState(false);
   const { isLoading, runPrediction } = usePrediction();
   const { copy, language } = useLanguage();
   const fieldLabels = getFieldLabels(language);
@@ -139,11 +142,21 @@ export function PatientForm() {
   const progress = useMemo(() => ((step + 1) / 4) * 100, [step]);
 
   const nextStep = async () => {
+    if (isStepTransitioning) {
+      return;
+    }
+
     const valid = await trigger(stepFields[step]);
     if (!valid) {
       return;
     }
+
+    setIsStepTransitioning(true);
     setStep((prev) => Math.min(prev + 1, 3));
+
+    window.setTimeout(() => {
+      setIsStepTransitioning(false);
+    }, 300);
   };
 
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
@@ -153,9 +166,9 @@ export function PatientForm() {
   };
 
   return (
-    <Card className="border-slate-200 shadow-sm">
+    <Card className="mx-auto w-full max-w-2xl rounded-xl border border-(--border-subtle) bg-white px-3 py-2 shadow-[0_2px_8px_rgba(10,46,37,0.06)] md:px-6 md:py-4">
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-(--brand-800)">
           {copy.form.step} {step + 1} {copy.form.of} 4
         </CardTitle>
         <Progress value={progress} />
@@ -171,7 +184,7 @@ export function PatientForm() {
                 name="gender"
                 render={({ field }) => (
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700" htmlFor="gender-male">
+                    <label className="mb-1 block text-[13px] font-medium tracking-[0.02em] text-(--text-secondary) uppercase" htmlFor="gender-male">
                       {copy.form.gender}
                     </label>
                     <RadioGroup value={String(field.value)} onValueChange={(value) => field.onChange(Number(value))}>
@@ -191,9 +204,11 @@ export function PatientForm() {
                 name="ethnicity"
                 render={({ field }) => (
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">{copy.form.ethnicity}</label>
+                    <label className="mb-1 block text-[13px] font-medium tracking-[0.02em] text-(--text-secondary) uppercase">
+                      {copy.form.ethnicity}
+                    </label>
                     <Select value={String(field.value)} onValueChange={(value) => field.onChange(Number(value))}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="h-10 w-full rounded-md border-(--border-subtle)">
                         <SelectValue placeholder={copy.form.selectEthnicity} />
                       </SelectTrigger>
                       <SelectContent>
@@ -211,31 +226,10 @@ export function PatientForm() {
 
               <Controller
                 control={control}
-                name="education"
-                render={({ field }) => (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700">{copy.form.education}</label>
-                    <Select value={String(field.value)} onValueChange={(value) => field.onChange(Number(value))}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder={copy.form.selectEducation} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">Less than high school</SelectItem>
-                        <SelectItem value="2">High school</SelectItem>
-                        <SelectItem value="3">Some college</SelectItem>
-                        <SelectItem value="4">College graduate</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-              />
-
-              <Controller
-                control={control}
                 name="smoking"
                 render={({ field }) => (
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700" htmlFor="smoking-no">
+                    <label className="mb-1 block text-[13px] font-medium tracking-[0.02em] text-(--text-secondary) uppercase" htmlFor="smoking-no">
                       {copy.form.smoking}
                     </label>
                     <RadioGroup value={String(field.value)} onValueChange={(value) => field.onChange(Number(value))}>
@@ -276,51 +270,62 @@ export function PatientForm() {
           ) : null}
 
           {step === 3 ? (
-            <div className="grid gap-6 md:grid-cols-2">
-              <Controller
-                control={control}
-                name="income_poverty_ratio"
-                render={({ field }) => (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700" htmlFor="income_poverty_ratio">
-                      {copy.form.incomeToPovertyRatio}: {field.value.toFixed(1)}
-                    </label>
-                    <Slider
-                      id="income_poverty_ratio"
-                      min={0}
-                      max={5}
-                      step={0.1}
-                      value={[field.value]}
-                      onValueChange={(value) => field.onChange(getSliderValue(value))}
-                    />
-                  </div>
-                )}
-              />
+            <div className="space-y-4">
+              <div className="rounded-xl border border-(--border-subtle) bg-(--surface-inset) px-4 py-3 text-sm text-(--brand-800)">
+                Review the final lifestyle inputs below, then classify.
+              </div>
+              <div className="grid gap-6 md:grid-cols-2">
+                <Controller
+                  control={control}
+                  name="income_poverty_ratio"
+                  render={({ field }) => (
+                    <div className="space-y-2">
+                      <label
+                        className="mb-1 block text-[13px] font-medium tracking-[0.02em] text-(--text-secondary) uppercase"
+                        htmlFor="income_poverty_ratio"
+                      >
+                        {copy.form.incomeToPovertyRatio}: {field.value.toFixed(1)}
+                      </label>
+                      <Slider
+                        id="income_poverty_ratio"
+                        min={0}
+                        max={5}
+                        step={0.1}
+                        value={[field.value]}
+                        onValueChange={(value) => field.onChange(getSliderValue(value))}
+                      />
+                    </div>
+                  )}
+                />
 
-              <Controller
-                control={control}
-                name="sedentary_minutes"
-                render={({ field }) => (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700" htmlFor="sedentary_minutes">
-                      {copy.form.sedentaryTime}: {field.value.toFixed(0)} {copy.form.minPerDay}
-                    </label>
-                    <Slider
-                      id="sedentary_minutes"
-                      min={0}
-                      max={720}
-                      step={10}
-                      value={[field.value]}
-                      onValueChange={(value) => field.onChange(getSliderValue(value))}
-                    />
-                  </div>
-                )}
-              />
+                <Controller
+                  control={control}
+                  name="sedentary_minutes"
+                  render={({ field }) => (
+                    <div className="space-y-2">
+                      <label
+                        className="mb-1 block text-[13px] font-medium tracking-[0.02em] text-(--text-secondary) uppercase"
+                        htmlFor="sedentary_minutes"
+                      >
+                        {copy.form.sedentaryTime}: {field.value.toFixed(0)} {copy.form.minPerDay}
+                      </label>
+                      <Slider
+                        id="sedentary_minutes"
+                        min={0}
+                        max={720}
+                        step={10}
+                        value={[field.value]}
+                        onValueChange={(value) => field.onChange(getSliderValue(value))}
+                      />
+                    </div>
+                  )}
+                />
+              </div>
             </div>
           ) : null}
 
           {Object.keys(errors).length > 0 ? (
-            <p className="text-sm text-rose-700" role="alert">
+            <p className="text-sm text-(--risk-high)" role="alert">
               {copy.form.reviewStep}
             </p>
           ) : null}
@@ -331,11 +336,11 @@ export function PatientForm() {
             </Button>
 
             {step < 3 ? (
-              <Button type="button" onClick={nextStep} disabled={isLoading}>
+              <Button type="button" onClick={nextStep} disabled={isLoading || isStepTransitioning}>
                 {copy.form.next}
               </Button>
             ) : (
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isLoading || isStepTransitioning}>
                 {isLoading ? (
                   <span className="inline-flex items-center gap-2">
                     <Loader2 className="h-4 w-4 animate-spin" />

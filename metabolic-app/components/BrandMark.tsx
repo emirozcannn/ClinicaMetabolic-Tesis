@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 export function BrandMark({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-teal-200 bg-white shadow-sm shadow-teal-100">
+      <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-(--brand-400) shadow-sm">
         <svg viewBox="0 0 48 48" className="h-8 w-8" aria-hidden="true">
           <defs>
             <linearGradient id="brandMarkGradient" x1="0%" x2="100%" y1="0%" y2="100%">
@@ -31,8 +31,8 @@ export function BrandMark({ className }: { className?: string }) {
         </svg>
       </div>
       <div className="leading-tight">
-        <p className="text-sm font-black tracking-[0.18em] text-slate-900 uppercase">ClinicaMetabolic</p>
-        <p className="text-xs font-medium tracking-wide text-slate-500">Clinical phenotype engine</p>
+        <p className="text-sm font-semibold tracking-[0.04em] text-current uppercase">ClinicaMetabolic</p>
+        <p className="text-xs font-medium tracking-wide text-current/70">Clinical phenotype engine</p>
       </div>
     </div>
   );
