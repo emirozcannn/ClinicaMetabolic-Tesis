@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.env
+*.egg-info/
+dist/
+
+# Node
+node_modules/
+.next/
+.env.local
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model — DO NOT GITIGNORE THE PKL FILE
+# The .pkl file must be committed to the repo for Render deployment
+# If the file exceeds 100MB, use Git LFS (see below)
+
+# Thesis / research artifacts that should stay out of the deploy repo
+check_deployment.sh
+copilot_faz1_backend_prompt.md
+faz2_frontend_prompt.md
+faz3_insights_prompt.md
+faz4_deployment_prompt.md
+*.docx
+*.xlsx
+*.xls
+metabolic-app/AGENTS.md
+metabolic-app/CLAUDE.md
+metabolic-app/README.md
+metabolic-api/README.md
+*.sav
+*.sas7bdat
+*.xpt
+*.png
+*.svg
+*.pdf
+*.txt
+split_comparison_*.csv
+tum_precision_recall.csv
+optuna_study_*
+Optuna_*
+PSO_*
+psoml.py
+PSO-OPTUNA.py
+optunaml.py
+ML.py
