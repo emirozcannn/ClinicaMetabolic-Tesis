@@ -39,7 +39,7 @@ metabolic-api/README.md
 *.png
 *.svg
 *.pdf
-*.txt
+PSO_vs_Optuna_detailed_report.txt
 split_comparison_*.csv
 tum_precision_recall.csv
 optuna_study_*
