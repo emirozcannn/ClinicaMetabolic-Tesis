@@ -3,7 +3,7 @@ import axios from "axios";
 import { PatientInput, PhenotypeInfo, PredictionResponse } from "@/lib/types";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
+  baseURL: "/api",
   timeout: 15000,
 });
 
